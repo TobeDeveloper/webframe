@@ -8,6 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyVetoException;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -150,6 +154,21 @@ public final class DBUtil {
     public static <T> boolean delete(Class<T> entityClass, long id) {
         String sql = "DELETE FROM " + getTableName(entityClass) + " WHERE id=?";
         return executeUpdate(sql, id) == 1;
+    }
+
+    public static void executeSqlFile(String fileName) {
+        try (
+            InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input))
+        ) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                DBUtil.executeUpdate(line);
+            }
+        } catch (IOException e) {
+            LOG.error("Failed to execute sql file", e);
+            throw new RuntimeException(e);
+        }
     }
 
     private static String getTableName(Class<?> entityClass) {

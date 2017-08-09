@@ -11,7 +11,7 @@ import java.io.IOException;
  * Created by myan on 2017/8/8.
  * Intellij IDEA
  */
-@WebServlet("/create")
+@WebServlet("/customer/create")
 public class CustomerCreateServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

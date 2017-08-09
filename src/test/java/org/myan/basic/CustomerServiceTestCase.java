@@ -23,12 +23,7 @@ public class CustomerServiceTestCase {
     public void setUp() throws Exception {
         service = new CustomerService();
         //init database, load test sql file
-        InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("test_sql.sql");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-        String line;
-        while((line = reader.readLine()) != null){
-            DBUtil.executeUpdate(line);
-        }
+        DBUtil.executeSqlFile("test_sql.sql");
     }
 
     @Test
