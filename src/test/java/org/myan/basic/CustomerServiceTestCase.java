@@ -3,7 +3,11 @@ package org.myan.basic;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+import org.myan.util.DBUtil;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,9 +20,15 @@ public class CustomerServiceTestCase {
     private CustomerService service;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         service = new CustomerService();
-        //init database
+        //init database, load test sql file
+        InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("test_sql.sql");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+        String line;
+        while((line = reader.readLine()) != null){
+            DBUtil.executeUpdate(line);
+        }
     }
 
     @Test
