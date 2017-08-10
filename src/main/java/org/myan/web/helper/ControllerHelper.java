@@ -15,7 +15,7 @@ import java.util.Set;
  * Created by myan on 2017/8/10.
  * Intellij IDEA
  */
-public class ControllerHelper {
+public final class ControllerHelper {
     private static final Map<ControllerRequest, RequestHandler> ACTION_MAP = new HashMap<>();
 
     static {
