@@ -1,7 +1,8 @@
-package org.myan.util;
+package org.myan.web.util;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Collection;
 import java.util.Map;
@@ -28,4 +29,11 @@ public final class CollectionUtil {
         return !isEmpty(map);
     }
 
+    public static boolean isEmpty(Object[] array){
+        return ArrayUtils.isEmpty(array);
+    }
+
+    public static boolean isNotEmpty(Object[] array){
+        return !isEmpty(array);
+    }
 }

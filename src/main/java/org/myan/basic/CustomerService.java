@@ -1,18 +1,18 @@
 package org.myan.basic;
 
-import org.myan.util.DBUtil;
-import org.myan.util.PropertyLoader;
+import org.myan.web.util.DBUtil;
+import org.myan.web.annotation.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * Created by myan on 2017/8/8.
  * Intellij IDEA
  */
+@Service
 public class CustomerService {
     private static final Logger LOG = LoggerFactory.getLogger(CustomerService.class);
 

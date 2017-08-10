@@ -1,9 +1,9 @@
 # Basic web framework for all developers
 
-***
 Useful modules:
 - Basic sql runner
-- Others...
+- MVC framework
+- Bean inject framework
 
 Third-party libraries:
 - Apache commons

@@ -1,4 +1,4 @@
-package org.myan.util;
+package org.myan.web.util;
 
 /**
  * Created by myan on 2017/8/8.

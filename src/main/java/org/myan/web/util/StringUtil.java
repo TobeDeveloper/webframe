@@ -1,4 +1,4 @@
-package org.myan.util;
+package org.myan.web.util;
 
 import org.apache.commons.lang3.StringUtils;
 
