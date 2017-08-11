@@ -12,3 +12,4 @@ Third-party libraries:
 - C3p0 datasource
 - Slf4j
 - Jackson
+- CGlib
