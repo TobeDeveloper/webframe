@@ -82,13 +82,14 @@ public class DispatcherServlet extends HttpServlet {
             Object result = RefelectionUtil.invokeMethod(controller, actionMethod, param);
 
             processResult(req, resp, result);
+        } else {
+            resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
         }
     }
 
     private RequestHandler getRequestHandler(HttpServletRequest req) {
         String requestMethod = req.getMethod().toUpperCase();
         String requestPath = req.getPathInfo();
-        HttpMethod.values();
         RequestHandler handler = null;
         for (HttpMethod method : HttpMethod.values()) {
             if (method.name().equals(requestMethod)) {

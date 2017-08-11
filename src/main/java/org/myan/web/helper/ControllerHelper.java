@@ -7,6 +7,7 @@ import org.myan.web.beans.RequestHandler;
 import org.myan.web.util.CollectionUtil;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -44,8 +45,14 @@ public final class ControllerHelper {
     /*get a handler for certain controller request.*/
     public static RequestHandler getHandler(HttpMethod[] methods, String path) {
         ControllerRequest request = new ControllerRequest(methods, path);
-        //FIXME there should add some validation.
-        return ACTION_MAP.get(request);
+        //FIXED there should add some validation.
+        for (Map.Entry<ControllerRequest, RequestHandler> entry : ACTION_MAP.entrySet()) {
+            HttpMethod[] allowedMethods = entry.getKey().getRequestMethod();
+            if(Arrays.asList(allowedMethods).containsAll(Arrays.asList(methods)))
+                return ACTION_MAP.get(request);
+
+        }
+        return null;
     }
 
 
