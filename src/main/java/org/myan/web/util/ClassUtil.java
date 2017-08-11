@@ -1,6 +1,5 @@
 package org.myan.web.util;
 
-import org.myan.web.exceptions.ExceptionMessage;
 import org.myan.web.exceptions.InitializeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
