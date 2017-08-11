@@ -17,4 +17,8 @@ public final class StringUtil {
     public static boolean isNotEmpty(String string) {
         return !isEmpty(string);
     }
+
+    public static String[] splitString(String source, String delimer) {
+        return source.split(delimer);
+    }
 }

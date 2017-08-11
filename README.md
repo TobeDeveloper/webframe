@@ -11,3 +11,4 @@ Third-party libraries:
 - JSP & Servlet api
 - C3p0 datasource
 - Slf4j
+- Jackson
