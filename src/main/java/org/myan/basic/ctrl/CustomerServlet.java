@@ -15,7 +15,7 @@ import java.util.List;
  * Created by myan on 2017/8/9.
  * Intellij IDEA
  */
-@WebServlet("/customer")
+//@WebServlet("/customer")
 public class CustomerServlet extends HttpServlet {
     private CustomerService service;
 

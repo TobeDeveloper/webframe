@@ -30,7 +30,10 @@ public final class BeanInstanceUtil {
         Object result;
         try {
             method.setAccessible(true);
-            result = method.invoke(target, params);
+            if(method.getParameterCount() == 0)
+                result = method.invoke(target);
+            else
+                result = method.invoke(target, params);
         } catch (IllegalAccessException | InvocationTargetException e) {
             LOG.error("Failed to invoke method", e);
             throw new RuntimeException(e);

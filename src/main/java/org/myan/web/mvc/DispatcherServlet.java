@@ -56,8 +56,11 @@ public class DispatcherServlet extends HttpServlet {
         HttpMethod.values();
         RequestHandler handler = null;
         for (HttpMethod method : HttpMethod.values()) {
-            if (method.name().equals(requestMethod))
+            if (method.name().equals(requestMethod)) {
                 handler = ControllerHelper.getHandler(new HttpMethod[]{method}, requestPath);
+                break;
+            }
+
         }
         if(handler != null) {
             Class<?> controllerClass = handler.getControllerClass();

@@ -85,8 +85,7 @@ public final class ClassUtil {
     /*add package classes*/
     private static void addClass(Set<Class<?>> classes, String packageName, String packagePath) {
         File[] files = new File(packagePath).listFiles((f) -> {
-            if (f.isFile()) if (f.getName().endsWith(".class")) return true;
-            return f.isDirectory();
+            return (f.isFile() && f.getName().endsWith(".class")) || f.isDirectory();
         });
 
         for (File file : files != null ? files : new File[0]) {
@@ -100,10 +99,10 @@ public final class ClassUtil {
             } else {
                 String subPackagePath = fileName;
                 if(StringUtil.isNotEmpty(packagePath))
-                    subPackagePath = packagePath + File.pathSeparator + subPackagePath;
+                    subPackagePath = packagePath + "/" + subPackagePath;
                 String subPackageName = fileName;
                 if(StringUtil.isNotEmpty(packageName))
-                    subPackageName = packageName + File.pathSeparator + subPackageName;
+                    subPackageName = packageName + "." + subPackageName;
                 addClass(classes, subPackageName, subPackagePath);
             }
         }
