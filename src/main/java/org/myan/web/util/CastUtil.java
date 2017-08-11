@@ -11,7 +11,7 @@ public final class CastUtil {
     }
 
     public static String castString(Object property, String defaultValue) {
-        return property == null ? String.valueOf(property) : defaultValue;
+        return property != null ? String.valueOf(property) : defaultValue;
     }
 
     public static double castDouble(Object property) {

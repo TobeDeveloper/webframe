@@ -57,6 +57,7 @@ public class DispatcherServlet extends HttpServlet {
         RequestHandler handler = null;
         for (HttpMethod method : HttpMethod.values()) {
             if (method.name().equals(requestMethod)) {
+                //we always got one method from client request
                 handler = ControllerHelper.getHandler(new HttpMethod[]{method}, requestPath);
                 break;
             }

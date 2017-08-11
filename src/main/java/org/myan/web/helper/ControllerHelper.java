@@ -26,6 +26,7 @@ public final class ControllerHelper {
                 Method[] methods = controller.getDeclaredMethods();
                 if (CollectionUtil.isNotEmpty(methods)) {
                     for (Method method : methods) {
+                        //set all actions
                         if (method.isAnnotationPresent(Action.class)) {
                             Action action = method.getAnnotation(Action.class);
                             HttpMethod[] httpMethod = action.method();
@@ -43,6 +44,7 @@ public final class ControllerHelper {
     /*get a handler for certain controller request.*/
     public static RequestHandler getHandler(HttpMethod[] methods, String path) {
         ControllerRequest request = new ControllerRequest(methods, path);
+        //FIXME there should add some validation.
         return ACTION_MAP.get(request);
     }
 
