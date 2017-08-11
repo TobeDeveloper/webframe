@@ -85,9 +85,8 @@ public final class ClassUtil {
 
     /*add package classes*/
     private static void addClass(Set<Class<?>> classes, String packageName, String packagePath) {
-        File[] files = new File(packagePath).listFiles((f) -> {
-            return (f.isFile() && f.getName().endsWith(".class")) || f.isDirectory();
-        });
+        File[] files = new File(packagePath).listFiles((f) -> (f.isFile() && f.getName().endsWith(".class"))
+                || f.isDirectory());
 
         for (File file : files != null ? files : new File[0]) {
             String fileName = file.getName();

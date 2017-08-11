@@ -48,7 +48,7 @@ public final class DBUtil {
         }
     }
 
-    public static Connection getConnection() {
+    private static Connection getConnection() {
         Connection connection = CONNECTION_HOLDER.get();
         if (connection == null) {
             try {
@@ -63,7 +63,7 @@ public final class DBUtil {
         return connection;
     }
 
-    public static void closeConnection() {
+    private static void closeConnection() {
         Connection connection = CONNECTION_HOLDER.get();
         if (connection != null) {
             try {

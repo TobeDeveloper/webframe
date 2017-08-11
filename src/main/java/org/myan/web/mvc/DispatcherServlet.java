@@ -51,18 +51,7 @@ public class DispatcherServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String requestMethod = req.getMethod().toUpperCase();
-        String requestPath = req.getPathInfo();
-        HttpMethod.values();
-        RequestHandler handler = null;
-        for (HttpMethod method : HttpMethod.values()) {
-            if (method.name().equals(requestMethod)) {
-                //we always got one method from client request
-                handler = ControllerHelper.getHandler(new HttpMethod[]{method}, requestPath);
-                break;
-            }
-
-        }
+        RequestHandler handler = getRequestHandler(req);
         if (handler != null) {
             Class<?> controllerClass = handler.getControllerClass();
             Object controller = BeanContext.getBean(controllerClass);
@@ -91,31 +80,51 @@ public class DispatcherServlet extends HttpServlet {
             Param param = new Param(paramsMap);
             Method actionMethod = handler.getRequestMethod();
             Object result = RefelectionUtil.invokeMethod(controller, actionMethod, param);
-            if (result instanceof View) {
-                View view = (View) result;
-                String path = view.getPath();
-                if (path.startsWith("/")) {
-                    resp.sendRedirect(req.getContextPath() + path);
-                } else {
-                    Map<String, Object> model = view.getDataModels();
-                    for (Map.Entry<String, Object> entry : model.entrySet()) {
-                        req.setAttribute(entry.getKey(), entry.getValue());
-                    }
-                    req.getRequestDispatcher(ConfigHelper.getJspPath() + path).forward(req, resp);
-                }
-            } else if (result instanceof DataResult) {
-                DataResult dataResult = (DataResult) result;
-                Object model = dataResult.getDataModel();
-                if (model != null) {
-                    resp.setContentType("application/json");
-                    resp.setCharacterEncoding("UTF-8");
-                    PrintWriter writer = resp.getWriter();
-                    writer.write(JsonUtil.toJson(model));
-                    writer.flush();
-                    writer.close();
-                }
+
+            processResult(req, resp, result);
+        }
+    }
+
+    private RequestHandler getRequestHandler(HttpServletRequest req) {
+        String requestMethod = req.getMethod().toUpperCase();
+        String requestPath = req.getPathInfo();
+        HttpMethod.values();
+        RequestHandler handler = null;
+        for (HttpMethod method : HttpMethod.values()) {
+            if (method.name().equals(requestMethod)) {
+                //we always got one method from client request
+                handler = ControllerHelper.getHandler(new HttpMethod[]{method}, requestPath);
+                break;
             }
 
+        }
+        return handler;
+    }
+
+    private void processResult(HttpServletRequest req, HttpServletResponse resp, Object result) throws IOException, ServletException {
+        if (result instanceof View) {
+            View view = (View) result;
+            String path = view.getPath();
+            if (path.startsWith("/")) {
+                resp.sendRedirect(req.getContextPath() + path);
+            } else {
+                Map<String, Object> model = view.getDataModels();
+                for (Map.Entry<String, Object> entry : model.entrySet()) {
+                    req.setAttribute(entry.getKey(), entry.getValue());
+                }
+                req.getRequestDispatcher(ConfigHelper.getJspPath() + path).forward(req, resp);
+            }
+        } else if (result instanceof DataResult) {
+            DataResult dataResult = (DataResult) result;
+            Object model = dataResult.getDataModel();
+            if (model != null) {
+                resp.setContentType("application/json");
+                resp.setCharacterEncoding("UTF-8");
+                PrintWriter writer = resp.getWriter();
+                writer.write(JsonUtil.toJson(model));
+                writer.flush();
+                writer.close();
+            }
         }
     }
 }
