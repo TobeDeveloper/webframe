@@ -1,5 +1,6 @@
 package org.myan.web.util;
 
+import org.myan.web.exceptions.InitializeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +35,7 @@ public final class PropertyLoader {
             prop.load(inputStream);
         } catch (IOException e) {
             LOG.error("Fail to load properties file.", e);
+            throw new InitializeException(e);
         }
         this.prop = prop;
     }

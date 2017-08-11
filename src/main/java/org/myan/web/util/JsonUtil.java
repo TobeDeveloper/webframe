@@ -2,6 +2,7 @@ package org.myan.web.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.myan.web.exceptions.ConvertException;
 
 import java.io.IOException;
 
@@ -16,7 +17,7 @@ public final class JsonUtil {
         try {
             return OBJECT_MAPPER.writeValueAsString(object);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new ConvertException(e);
         }
     }
 
@@ -24,7 +25,7 @@ public final class JsonUtil {
         try {
             return OBJECT_MAPPER.readValue(json, type);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ConvertException(e);
         }
     }
 }

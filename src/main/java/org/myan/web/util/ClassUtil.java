@@ -1,5 +1,7 @@
 package org.myan.web.util;
 
+import org.myan.web.exceptions.ExceptionMessage;
+import org.myan.web.exceptions.InitializeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +33,7 @@ public final class ClassUtil {
             clazz = Class.forName(className, initialize, getClassLoader());
         } catch (ClassNotFoundException e) {
             LOG.error("Failed to load class.", e);
-            throw new RuntimeException(e);
+            throw new InitializeException(e);
         }
         return clazz;
     }
@@ -71,7 +73,7 @@ public final class ClassUtil {
             }
         } catch (IOException e) {
             LOG.error("Failed to load classes.", e);
-            throw new RuntimeException(e);
+            throw new InitializeException(e);
         }
         return classes;
     }

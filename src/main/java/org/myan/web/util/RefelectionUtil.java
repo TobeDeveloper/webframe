@@ -1,5 +1,6 @@
 package org.myan.web.util;
 
+import org.myan.web.exceptions.ContextException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +21,7 @@ public final class RefelectionUtil {
             instance = clazz.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             LOG.error("Failed to create new instance", e);
-            throw new RuntimeException(e);
+            throw new ContextException(e);
         }
         return instance;
     }
@@ -36,7 +37,7 @@ public final class RefelectionUtil {
                 result = method.invoke(target, params);
         } catch (IllegalAccessException | InvocationTargetException e) {
             LOG.error("Failed to invoke method", e);
-            throw new RuntimeException(e);
+            throw new ContextException(e);
         }
         return result;
     }
@@ -47,7 +48,7 @@ public final class RefelectionUtil {
             field.set(target, value);
         } catch (IllegalAccessException e) {
             LOG.error("Failed to set field value", e);
-            throw new RuntimeException(e);
+            throw new ContextException(e);
         }
     }
 }

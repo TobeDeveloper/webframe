@@ -1,6 +1,8 @@
 package org.myan.web.beans;
 
+import org.apache.commons.lang3.exception.ContextedException;
 import org.myan.web.annotation.Inject;
+import org.myan.web.exceptions.ContextException;
 import org.myan.web.helper.ClassHelper;
 import org.myan.web.util.CollectionUtil;
 import org.myan.web.util.RefelectionUtil;
@@ -55,7 +57,7 @@ public class BeanContext {
     @SuppressWarnings("unchecked")
     public static <T> T getBean(Class<T> clazz) {
         if (!BEANS.containsKey(clazz))
-            throw new RuntimeException("Could not find managed bean for class:" + clazz);
+            throw new ContextException("Could not find managed bean for class:" + clazz);
         return (T) BEANS.get(clazz);
     }
 }

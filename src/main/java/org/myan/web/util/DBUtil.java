@@ -4,6 +4,8 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
+import org.myan.web.exceptions.ContextException;
+import org.myan.web.exceptions.InitializeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +55,7 @@ public final class DBUtil {
                 connection = DATA_SOURCE.getConnection();
             } catch (SQLException e) {
                 LOG.error("Failed to get connection.", e);
-                throw new RuntimeException(e);
+                throw new InitializeException(e);
             } finally {
                 CONNECTION_HOLDER.set(connection);
             }
@@ -82,7 +84,7 @@ public final class DBUtil {
             entityList = QUERY_RUNNER.query(connection, sql, new BeanListHandler<T>(entityClass), params);
         } catch (SQLException e) {
             LOG.error("Failed to execute query.", e);
-            throw new RuntimeException(e);
+            throw new ContextException(e);
         } finally {
             closeConnection();
         }
@@ -109,7 +111,7 @@ public final class DBUtil {
             rows = QUERY_RUNNER.update(connection, sql, params);
         } catch (SQLException e) {
             LOG.error("Failed to execute query.", e);
-            throw new RuntimeException(e);
+            throw new ContextException(e);
         } finally {
             closeConnection();
         }
