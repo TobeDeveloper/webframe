@@ -18,15 +18,15 @@ public class CustomerController {
     @Inject
     private CustomerService service;
 
-    @Action(method= HttpMethod.GET, path="/customer")
-    public View index(){
+    @Action(method = HttpMethod.GET, path = "/customer")
+    public View index() {
         View view = new View("customer.jsp");
         view.addModel("customers", service.getCustomers());
         return view;
     }
 
-    @Action(method=HttpMethod.DELETE, path="/customer/delete")
-    public DataResult delete(Param p){
+    @Action(method = HttpMethod.DELETE, path = "/customer/delete")
+    public DataResult delete(Param p) {
         return new DataResult(service.deleteCustomer(p.getLong("id")));
     }
 }

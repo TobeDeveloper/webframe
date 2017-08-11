@@ -20,13 +20,13 @@ public final class ControllerHelper {
 
     static {
         Set<Class<?>> controllers = ClassHelper.getControllerClasses();
-        if(CollectionUtil.isNotEmpty(controllers)) {
+        if (CollectionUtil.isNotEmpty(controllers)) {
             for (Class<?> controller : controllers) {
                 //get all method
                 Method[] methods = controller.getDeclaredMethods();
-                if(CollectionUtil.isNotEmpty(methods)){
+                if (CollectionUtil.isNotEmpty(methods)) {
                     for (Method method : methods) {
-                        if(method.isAnnotationPresent(Action.class)){
+                        if (method.isAnnotationPresent(Action.class)) {
                             Action action = method.getAnnotation(Action.class);
                             HttpMethod[] httpMethod = action.method();
                             String path = action.path();
@@ -41,8 +41,8 @@ public final class ControllerHelper {
     }
 
     /*get a handler for certain controller request.*/
-    public static RequestHandler getHandler(HttpMethod[] methods, String path){
-        ControllerRequest request = new ControllerRequest(methods ,path);
+    public static RequestHandler getHandler(HttpMethod[] methods, String path) {
+        ControllerRequest request = new ControllerRequest(methods, path);
         return ACTION_MAP.get(request);
     }
 

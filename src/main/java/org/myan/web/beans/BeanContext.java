@@ -2,8 +2,8 @@ package org.myan.web.beans;
 
 import org.myan.web.annotation.Inject;
 import org.myan.web.helper.ClassHelper;
-import org.myan.web.util.BeanInstanceUtil;
 import org.myan.web.util.CollectionUtil;
+import org.myan.web.util.RefelectionUtil;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ public class BeanContext {
     static {
         Set<Class<?>> classSet = ClassHelper.getManagedClasses();
         for (Class<?> clazz : classSet) {
-            BEANS.put(clazz, BeanInstanceUtil.newInstance(clazz));
+            BEANS.put(clazz, RefelectionUtil.newInstance(clazz));
         }
         //we need to set the injected fields also.
         injectFields();
@@ -34,11 +34,11 @@ public class BeanContext {
                 Field[] beanFields = beanClass.getDeclaredFields();
                 if (CollectionUtil.isNotEmpty(beanFields)) {
                     for (Field field : beanFields) {
-                        if(field.isAnnotationPresent(Inject.class)){
+                        if (field.isAnnotationPresent(Inject.class)) {
                             Class<?> fieldClass = field.getType();
                             Object fieldClassInstance = BEANS.get(fieldClass);
-                            if(fieldClassInstance != null)
-                                BeanInstanceUtil.setFieldValue(beanInstance, field, fieldClassInstance);
+                            if (fieldClassInstance != null)
+                                RefelectionUtil.setFieldValue(beanInstance, field, fieldClassInstance);
                         }
                     }
                 }

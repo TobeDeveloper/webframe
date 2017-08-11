@@ -29,11 +29,11 @@ public final class CollectionUtil {
         return !isEmpty(map);
     }
 
-    public static boolean isEmpty(Object[] array){
+    public static boolean isEmpty(Object[] array) {
         return ArrayUtils.isEmpty(array);
     }
 
-    public static boolean isNotEmpty(Object[] array){
+    public static boolean isNotEmpty(Object[] array) {
         return !isEmpty(array);
     }
 }

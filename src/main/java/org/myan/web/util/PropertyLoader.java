@@ -16,11 +16,11 @@ public final class PropertyLoader {
     private static final Logger LOG = LoggerFactory.getLogger(PropertyLoader.class);
     private static Properties prop;
 
-    private PropertyLoader(String fileName){
+    private PropertyLoader(String fileName) {
         load(fileName);
     }
 
-    public static PropertyLoader getInstance(String fileName){
+    public static PropertyLoader getInstance(String fileName) {
         return new PropertyLoader(fileName);
     }
 

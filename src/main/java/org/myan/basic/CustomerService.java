@@ -1,7 +1,7 @@
 package org.myan.basic;
 
-import org.myan.web.util.DBUtil;
 import org.myan.web.annotation.Service;
+import org.myan.web.util.DBUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

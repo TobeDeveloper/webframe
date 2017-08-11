@@ -1,9 +1,6 @@
 package org.myan.web.mvc;
 
-import org.myan.basic.Customer;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

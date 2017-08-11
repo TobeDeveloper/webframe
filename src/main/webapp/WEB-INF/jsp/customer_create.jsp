@@ -11,6 +11,6 @@
     <title>Create Customer</title>
 </head>
 <body>
-    <h1>Create a customer</h1>
+<h1>Create a customer</h1>
 </body>
 </html>

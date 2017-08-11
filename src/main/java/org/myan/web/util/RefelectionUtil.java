@@ -11,8 +11,8 @@ import java.lang.reflect.Method;
  * Created by myan on 2017/8/10.
  * Intellij IDEA
  */
-public final class BeanInstanceUtil {
-    private static final Logger LOG = LoggerFactory.getLogger(BeanInstanceUtil.class);
+public final class RefelectionUtil {
+    private static final Logger LOG = LoggerFactory.getLogger(RefelectionUtil.class);
 
     public static Object newInstance(Class<?> clazz) {
         Object instance = null;
@@ -30,7 +30,7 @@ public final class BeanInstanceUtil {
         Object result;
         try {
             method.setAccessible(true);
-            if(method.getParameterCount() == 0)
+            if (method.getParameterCount() == 0)
                 result = method.invoke(target);
             else
                 result = method.invoke(target, params);

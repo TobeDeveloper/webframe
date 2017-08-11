@@ -23,7 +23,7 @@ public final class ClassHelper {
     public static Set<Class<?>> getServiceClasses() {
         Set<Class<?>> services = new HashSet<>();
         for (Class<?> clazz : CLASS_SET) {
-            if(clazz.isAnnotationPresent(Service.class))
+            if (clazz.isAnnotationPresent(Service.class))
                 services.add(clazz);
         }
         return services;
@@ -32,7 +32,7 @@ public final class ClassHelper {
     public static Set<Class<?>> getControllerClasses() {
         Set<Class<?>> controllers = new HashSet<>();
         for (Class<?> clazz : CLASS_SET) {
-            if(clazz.isAnnotationPresent(Controller.class))
+            if (clazz.isAnnotationPresent(Controller.class))
                 controllers.add(clazz);
         }
         return controllers;

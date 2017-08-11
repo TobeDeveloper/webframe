@@ -158,8 +158,8 @@ public final class DBUtil {
 
     public static void executeSqlFile(String fileName) {
         try (
-            InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(input))
+                InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(input))
         ) {
             String line;
             while ((line = reader.readLine()) != null) {

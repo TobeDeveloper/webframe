@@ -1,12 +1,15 @@
 package org.myan.basic;
 
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.myan.web.util.DBUtil;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by myan on 2017/8/8.
@@ -24,12 +27,12 @@ public class CustomerServiceTestCase {
     }
 
     @Test
-    public void testGetCustomerList(){
+    public void testGetCustomerList() {
         assertEquals(2, service.getCustomers().size());
     }
 
     @Test
-    public void testGetCustomer(){
+    public void testGetCustomer() {
         assertNotNull(service.getCustomer(1));
     }
 
@@ -50,7 +53,7 @@ public class CustomerServiceTestCase {
     }
 
     @Test
-    public void testDeleteCustomer(){
+    public void testDeleteCustomer() {
         assertTrue(service.deleteCustomer(1));
     }
 }

@@ -16,7 +16,7 @@ public class Param {
         this.params = params;
     }
 
-    public long getLong(String name){
+    public long getLong(String name) {
         return CastUtil.castLong(params.get(name));
     }
 

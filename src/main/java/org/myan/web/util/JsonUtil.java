@@ -12,7 +12,7 @@ import java.io.IOException;
 public final class JsonUtil {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    public static <T> String toJson(T object){
+    public static <T> String toJson(T object) {
         try {
             return OBJECT_MAPPER.writeValueAsString(object);
         } catch (JsonProcessingException e) {

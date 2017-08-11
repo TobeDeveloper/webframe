@@ -15,11 +15,11 @@ public final class StreamUtil {
     public static String getString(ServletInputStream input) {
         StringBuilder sb = new StringBuilder();
 
-        try(
-            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+        try (
+                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
         ) {
             String line;
-            while((line = reader.readLine()) != null)
+            while ((line = reader.readLine()) != null)
                 sb.append(line);
         } catch (IOException e) {
             throw new RuntimeException(e);
