@@ -1,4 +1,8 @@
-package org.myan.web.proxy;
+package org.myan.basic;
+
+import org.myan.web.annotation.Aspect;
+import org.myan.web.annotation.Controller;
+import org.myan.web.proxy.AspectProxy;
 
 import java.lang.reflect.Method;
 
@@ -6,6 +10,7 @@ import java.lang.reflect.Method;
  * Created by myan on 2017/8/14.
  * Intellij IDEA
  */
+@Aspect(Controller.class)
 public class ControllerAspect extends AspectProxy {
     private long begin;
 

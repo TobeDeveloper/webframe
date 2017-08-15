@@ -1,6 +1,7 @@
 package org.myan.web.mvc;
 
 import org.myan.web.annotation.HttpMethod;
+import org.myan.web.beans.AspectContext;
 import org.myan.web.beans.BeanContext;
 import org.myan.web.beans.RequestHandler;
 import org.myan.web.helper.ClassHelper;
@@ -136,7 +137,8 @@ class Initializer {
         Class<?>[] classList = {
                 ClassHelper.class,
                 ControllerHelper.class,
-                BeanContext.class
+                BeanContext.class,
+                AspectContext.class
         };
 
         for (Class<?> clazz : classList) {

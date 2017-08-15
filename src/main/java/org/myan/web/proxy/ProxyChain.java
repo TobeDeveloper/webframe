@@ -25,6 +25,11 @@ public class ProxyChain {
 
     private final Method targetMethod;
     private final MethodProxy methodProxy;
+
+    public Object[] getParams() {
+        return params;
+    }
+
     private final Object[] params;
 
     private List<Proxy> proxies = new ArrayList<>();
@@ -41,7 +46,7 @@ public class ProxyChain {
     }
 
     public Object doProxyChain() throws Throwable{
-        Object methodResult = null;
+        Object methodResult;
         if(index < proxies.size())
             methodResult = proxies.get(index++).proxy(this);
         else

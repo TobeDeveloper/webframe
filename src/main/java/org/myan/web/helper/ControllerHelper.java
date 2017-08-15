@@ -1,6 +1,7 @@
 package org.myan.web.helper;
 
 import org.myan.web.annotation.Action;
+import org.myan.web.annotation.Controller;
 import org.myan.web.annotation.HttpMethod;
 import org.myan.web.beans.ControllerRequest;
 import org.myan.web.beans.RequestHandler;
@@ -20,7 +21,7 @@ public final class ControllerHelper {
     private static final Map<ControllerRequest, RequestHandler> ACTION_MAP = new HashMap<>();
 
     static {
-        Set<Class<?>> controllers = ClassHelper.getControllerClasses();
+        Set<Class<?>> controllers = ClassHelper.getClassFromAnnotation(Controller.class);
         if (CollectionUtil.isNotEmpty(controllers)) {
             for (Class<?> controller : controllers) {
                 //get all method

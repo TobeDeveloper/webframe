@@ -4,6 +4,7 @@ import org.myan.web.annotation.Controller;
 import org.myan.web.annotation.Service;
 import org.myan.web.util.ClassUtil;
 
+import java.lang.annotation.Annotation;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,7 +20,7 @@ public final class ClassHelper {
         CLASS_SET = ClassUtil.loadClasses(basePackage);
     }
 
-    /*load service classes*/
+    /*load service classes
     public static Set<Class<?>> getServiceClasses() {
         Set<Class<?>> services = new HashSet<>();
         for (Class<?> clazz : CLASS_SET) {
@@ -37,11 +38,30 @@ public final class ClassHelper {
         }
         return controllers;
     }
+*/
 
     public static Set<Class<?>> getManagedClasses() {
         Set<Class<?>> managedClasses = new HashSet<>();
-        managedClasses.addAll(getServiceClasses());
-        managedClasses.addAll(getControllerClasses());
+        managedClasses.addAll(getClassFromAnnotation(Service.class));
+        managedClasses.addAll(getClassFromAnnotation(Controller.class));
         return managedClasses;
+    }
+
+    public static Set<Class<?>> getClassFromSuper(Class<?> superClass) {
+        Set<Class<?>> classes = new HashSet<>();
+        for (Class<?> clazz : CLASS_SET) {
+            if(superClass.isAssignableFrom(clazz) && !superClass.equals(clazz))
+                classes.add(clazz);
+        }
+        return classes;
+    }
+
+    public static Set<Class<?>> getClassFromAnnotation(Class<? extends Annotation> annotationClass) {
+        Set<Class<?>> classes = new HashSet<>();
+        for (Class<?> clazz : CLASS_SET) {
+            if(clazz.isAnnotationPresent(annotationClass))
+                classes.add(clazz);
+        }
+        return classes;
     }
 }

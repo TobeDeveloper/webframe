@@ -60,4 +60,8 @@ public class BeanContext {
             throw new ContextException("Could not find managed bean for class:" + clazz);
         return (T) BEANS.get(clazz);
     }
+
+    public static void setBean(Class<?> clazz, Object object) {
+        BEANS.put(clazz, object);
+    }
 }
