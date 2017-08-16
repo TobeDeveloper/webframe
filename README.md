@@ -4,6 +4,7 @@ Useful modules:
 - Basic sql runner
 - MVC framework
 - Bean inject framework
+- AOP support for method interceptor.
 
 Third-party libraries:
 - Apache commons

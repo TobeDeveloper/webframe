@@ -1,12 +1,12 @@
 package org.myan.web.mvc;
 
+import org.myan.web.context.AbstractContext;
 import org.myan.web.annotation.HttpMethod;
-import org.myan.web.beans.AspectContext;
-import org.myan.web.beans.BeanContext;
+import org.myan.web.context.AspectContext;
+import org.myan.web.context.BeanContext;
 import org.myan.web.beans.RequestHandler;
-import org.myan.web.helper.ClassHelper;
-import org.myan.web.helper.ConfigHelper;
-import org.myan.web.helper.ControllerHelper;
+import org.myan.web.context.WebApplicationContext;
+import org.myan.web.ConfigHelper;
 import org.myan.web.util.ClassUtil;
 import org.myan.web.util.CodecUtil;
 import org.myan.web.util.CollectionUtil;
@@ -95,7 +95,7 @@ public class DispatcherServlet extends HttpServlet {
         for (HttpMethod method : HttpMethod.values()) {
             if (method.name().equals(requestMethod)) {
                 //we always got one method from client request
-                handler = ControllerHelper.getHandler(new HttpMethod[]{method}, requestPath);
+                handler = WebApplicationContext.getHandler(new HttpMethod[]{method}, requestPath);
                 break;
             }
 
@@ -135,9 +135,9 @@ class Initializer {
 
     static void init() {
         Class<?>[] classList = {
-                ClassHelper.class,
-                ControllerHelper.class,
+                AbstractContext.class,
                 BeanContext.class,
+                WebApplicationContext.class,
                 AspectContext.class
         };
 

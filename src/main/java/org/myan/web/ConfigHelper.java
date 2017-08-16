@@ -1,4 +1,4 @@
-package org.myan.web.helper;
+package org.myan.web;
 
 import org.myan.web.Constants;
 import org.myan.web.util.PropertyLoader;
@@ -26,6 +26,7 @@ public final class ConfigHelper {
         return LOADER.getString(Constants.jdbcPassword);
     }
 
+    /* this should not be here.*/
     public static String getBasePackage() {
         return LOADER.getString(Constants.basePackage);
     }

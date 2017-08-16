@@ -25,6 +25,7 @@ public abstract class AspectProxy implements Proxy {
             }else
                 result = chain.doProxyChain();
         } catch (Throwable throwable) {
+            error(target, method, params);
             throwable.printStackTrace();
         }
         return result;

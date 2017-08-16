@@ -1,9 +1,7 @@
-package org.myan.web.beans;
+package org.myan.web.context;
 
-import org.apache.commons.lang3.exception.ContextedException;
 import org.myan.web.annotation.Inject;
 import org.myan.web.exceptions.ContextException;
-import org.myan.web.helper.ClassHelper;
 import org.myan.web.util.CollectionUtil;
 import org.myan.web.util.RefelectionUtil;
 
@@ -16,11 +14,11 @@ import java.util.Set;
  * Created by myan on 2017/8/10.
  * Intellij IDEA
  */
-public class BeanContext {
+public class BeanContext extends AbstractContext {
     private static final Map<Class<?>, Object> BEANS = new HashMap<>();
 
     static {
-        Set<Class<?>> classSet = ClassHelper.getManagedClasses();
+        Set<Class<?>> classSet = getManagedClasses();
         for (Class<?> clazz : classSet) {
             BEANS.put(clazz, RefelectionUtil.newInstance(clazz));
         }
@@ -48,12 +46,6 @@ public class BeanContext {
         }
     }
 
-    /*BEANS should not exploded to other class.
-    public Map<Class<?>, Object> getBeansMap() {
-        return BEANS;
-    }
-    */
-
     @SuppressWarnings("unchecked")
     public static <T> T getBean(Class<T> clazz) {
         if (!BEANS.containsKey(clazz))
@@ -61,7 +53,7 @@ public class BeanContext {
         return (T) BEANS.get(clazz);
     }
 
-    public static void setBean(Class<?> clazz, Object object) {
+    public static void addBean(Class<?> clazz, Object object) {
         BEANS.put(clazz, object);
     }
 }

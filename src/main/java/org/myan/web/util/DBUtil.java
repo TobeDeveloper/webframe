@@ -6,6 +6,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.myan.web.exceptions.ContextException;
 import org.myan.web.exceptions.InitializeException;
+import org.myan.web.ConfigHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,11 +32,10 @@ public final class DBUtil {
     private static final ComboPooledDataSource DATA_SOURCE;
 
     static {
-        PropertyLoader prop = PropertyLoader.getInstance("config.properties");
-        String driver = prop.getString("jdbc.driver");
-        String url = prop.getString("jdbc.url");
-        String user = prop.getString("jdbc.username");
-        String password = prop.getString("jdbc.password");
+        String driver = ConfigHelper.getJdbcDriver();
+        String url = ConfigHelper.getJdbcUrl();
+        String user = ConfigHelper.getJdbcUser();
+        String password = ConfigHelper.getJdbcPassword();
 
         DATA_SOURCE = new ComboPooledDataSource();
         try {
