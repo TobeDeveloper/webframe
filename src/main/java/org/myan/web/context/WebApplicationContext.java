@@ -7,6 +7,8 @@ import org.myan.web.annotation.Action;
 import org.myan.web.annotation.Controller;
 import org.myan.web.annotation.HttpMethod;
 import org.myan.web.util.CollectionUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -19,6 +21,7 @@ import java.util.Set;
  * Hold all beans for web application
  */
 public class WebApplicationContext extends AbstractContext {
+    private static final Logger LOG = LoggerFactory.getLogger(WebApplicationContext.class);
     private static final Map<ControllerRequest, RequestHandler> ACTION_MAP = new HashMap<>();
 
     static {
@@ -31,6 +34,7 @@ public class WebApplicationContext extends AbstractContext {
                         Action action = method.getAnnotation(Action.class);
                         HttpMethod[] httpMethod = action.method();
                         String path = action.path();
+                        LOG.info(String.format("Mapped %s to %s.", path, method.getName()));
                         ControllerRequest request = new ControllerRequest(httpMethod, path);
                         RequestHandler handler = new RequestHandler(controller, method);
                         ACTION_MAP.put(request, handler);

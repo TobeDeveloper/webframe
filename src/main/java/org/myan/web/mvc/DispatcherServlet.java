@@ -138,7 +138,6 @@ class Initializer {
                 AbstractContext.class,
                 BeanContext.class,
                 WebApplicationContext.class,
-                AspectContext.class
         };
 
         for (Class<?> clazz : classList) {

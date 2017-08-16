@@ -19,14 +19,14 @@ public class ControllerAspect extends AspectProxy {
 
     @Override
     public void before(Class<?> clazz, Method method, Object[] params) throws Throwable {
-        LOG.debug("---------- controller method intercept begins ----------");
-        LOG.debug(String.format("# class: %s, method: %s \n", clazz.getName(), method.getName()));
+        LOG.info("---------- controller method intercept begins ----------");
+        LOG.info(String.format("# class: %s, method: %s \n", clazz.getName(), method.getName()));
         begin = System.currentTimeMillis();
     }
 
     @Override
     public void after(Class<?> clazz, Method method, Object[] params) throws Throwable {
-        LOG.debug("# time cost: %s", System.currentTimeMillis() - begin);
-        LOG.debug("---------- controller method intercept ends ----------");
+        LOG.info("# time cost: %s", System.currentTimeMillis() - begin);
+        LOG.info("---------- controller method intercept ends ----------");
     }
 }

@@ -22,6 +22,8 @@ public class BeanContext extends AbstractContext {
         for (Class<?> clazz : classSet) {
             BEANS.put(clazz, RefelectionUtil.newInstance(clazz));
         }
+        //do apo init here.
+        AspectContext.init();
         //we need to set the injected fields also.
         injectFields();
     }

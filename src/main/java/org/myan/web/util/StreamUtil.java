@@ -16,7 +16,7 @@ public final class StreamUtil {
         StringBuilder sb = new StringBuilder();
 
         try (
-                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(input))
         ) {
             String line;
             while ((line = reader.readLine()) != null)

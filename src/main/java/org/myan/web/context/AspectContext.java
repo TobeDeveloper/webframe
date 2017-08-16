@@ -1,9 +1,9 @@
 package org.myan.web.context;
 
-import org.myan.web.context.AbstractContext;
 import org.myan.web.annotation.Aspect;
 import org.myan.web.proxy.AspectProxy;
 import org.myan.web.proxy.Proxy;
+import org.myan.web.proxy.ProxyManager;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -19,11 +19,7 @@ import java.util.Set;
  */
 public class AspectContext extends AbstractContext {
 
-    static {
-        init();
-    }
-
-    private Set<Class<?>> createTargetClassSet(Aspect aspect) {
+    private static Set<Class<?>> createTargetClassSet(Aspect aspect) {
         Set<Class<?>> target = new HashSet<>();
         Class<? extends Annotation> annotation = aspect.value();
         if(!annotation.equals(Aspect.class))
@@ -34,7 +30,7 @@ public class AspectContext extends AbstractContext {
     /*
     * create a map to store the classes we want to proxy.
     * */
-    private Map<Class<?>, Set<Class<?>>> createProxyMap() {
+    private static Map<Class<?>, Set<Class<?>>> createProxyMap() {
         Map<Class<?>, Set<Class<?>>> proxyMap = new HashMap<>();
         for (Class<?> proxyClass : getClassFromSuper(AspectProxy.class)) {
             if(proxyClass.isAnnotationPresent(Aspect.class)){
@@ -49,7 +45,7 @@ public class AspectContext extends AbstractContext {
     /*
     * set up all proxies to certain class.
     * */
-    private Map<Class<?>, List<Proxy>> proxyTarget(Map<Class<?>, Set<Class<?>>> proxyMap) {
+    private static Map<Class<?>, List<Proxy>> proxyTarget(Map<Class<?>, Set<Class<?>>> proxyMap) {
         Map<Class<?>, List<Proxy>> targetMap = new HashMap<>();
 
         for (Map.Entry<Class<?>, Set<Class<?>>> entry : proxyMap.entrySet()) {
@@ -57,7 +53,7 @@ public class AspectContext extends AbstractContext {
             Set<Class<?>> targetClasses = entry.getValue();
             for (Class<?> clazz : targetClasses) {
                 try {
-                    Proxy proxy = (Proxy) clazz.newInstance();
+                    Proxy proxy = (Proxy) proxyClass.newInstance();
                     if(targetMap.containsKey(clazz))
                         targetMap.get(clazz).add(proxy);
                     else{
@@ -75,6 +71,13 @@ public class AspectContext extends AbstractContext {
     }
 
     static void init(){
+        Map<Class<?>, Set<Class<?>>> proxyMap = createProxyMap();
+        Map<Class<?>, List<Proxy>> proxyTarget = proxyTarget(proxyMap);
 
+        for (Map.Entry<Class<?>,List<Proxy>> entry : proxyTarget.entrySet()) {
+            Class<?> targetClass = entry.getKey();
+            Object proxy = ProxyManager.createProxy(targetClass, entry.getValue());
+            BeanContext.addBean(targetClass, proxy);
+        }
     }
 }
