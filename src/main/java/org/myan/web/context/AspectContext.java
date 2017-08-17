@@ -24,7 +24,7 @@ public class AspectContext extends AbstractContext {
     private static Set<Class<?>> createTargetClassSet(Aspect aspect) {
         Set<Class<?>> target = new HashSet<>();
         Class<? extends Annotation> annotation = aspect.value();
-        if(!annotation.equals(Aspect.class))
+        if (!annotation.equals(Aspect.class))
             target.addAll(getClassFromAnnotation(annotation));
         return target;
     }
@@ -41,7 +41,7 @@ public class AspectContext extends AbstractContext {
 
     private static void addAspectProxy(Map<Class<?>, Set<Class<?>>> proxyMap) {
         for (Class<?> proxyClass : getClassFromSuper(AspectProxy.class)) {
-            if(proxyClass.isAnnotationPresent(Aspect.class)){
+            if (proxyClass.isAnnotationPresent(Aspect.class)) {
                 Aspect aspect = proxyClass.getAnnotation(Aspect.class);
                 Set<Class<?>> targetClasses = createTargetClassSet(aspect);
                 proxyMap.put(proxyClass, targetClasses);
@@ -65,11 +65,12 @@ public class AspectContext extends AbstractContext {
             for (Class<?> clazz : targetClasses) {
                 try {
                     Proxy proxy = (Proxy) proxyClass.newInstance();
-                    if(targetMap.containsKey(clazz))
+                    if (targetMap.containsKey(clazz))
                         targetMap.get(clazz).add(proxy);
-                    else{
+                    else {
                         List<Proxy> proxyList = new ArrayList<>();
                         proxyList.add(proxy);
+                        //replace certain injected bean with cglib proxy enhancer.
                         targetMap.put(clazz, proxyList);
                     }
                 } catch (InstantiationException | IllegalAccessException e) {
@@ -81,11 +82,11 @@ public class AspectContext extends AbstractContext {
         return targetMap;
     }
 
-    static void init(){
+    static void init() {
         Map<Class<?>, Set<Class<?>>> proxyMap = createProxyMap();
         Map<Class<?>, List<Proxy>> proxyTarget = proxyTarget(proxyMap);
 
-        for (Map.Entry<Class<?>,List<Proxy>> entry : proxyTarget.entrySet()) {
+        for (Map.Entry<Class<?>, List<Proxy>> entry : proxyTarget.entrySet()) {
             Class<?> targetClass = entry.getKey();
             Object proxy = ProxyManager.createProxy(targetClass, entry.getValue());
             BeanContext.addBean(targetClass, proxy);

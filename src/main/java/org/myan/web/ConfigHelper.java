@@ -1,6 +1,5 @@
 package org.myan.web;
 
-import org.myan.web.Constants;
 import org.myan.web.util.PropertyLoader;
 
 /**
@@ -32,11 +31,14 @@ public final class ConfigHelper {
     }
 
     public static String getJspPath() {
-        return LOADER.getString(Constants.jspPath);
+        return LOADER.getString(Constants.jspPath, "/templates");
     }
 
     public static String getResourcePath() {
-        return LOADER.getString(Constants.resourcePath);
+        return LOADER.getString(Constants.resourcePath, "/resources");
     }
 
+    public static int getUploadLimit() {
+        return LOADER.getInt(Constants.uploadLimit, 10);
+    }
 }

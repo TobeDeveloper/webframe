@@ -12,14 +12,16 @@ import java.lang.reflect.Method;
  */
 public class CGlibProxy implements MethodInterceptor {
     private static CGlibProxy instance = new CGlibProxy();
-    private CGlibProxy(){}
 
-    public CGlibProxy getInstance(){
+    private CGlibProxy() {
+    }
+
+    public CGlibProxy getInstance() {
         return instance;
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T getProxy(Class<T> target){
+    public <T> T getProxy(Class<T> target) {
         return (T) Enhancer.create(target, this);
     }
 

@@ -1,8 +1,8 @@
 package org.myan.web.context;
 
+import org.myan.web.ConfigHelper;
 import org.myan.web.annotation.Controller;
 import org.myan.web.annotation.Service;
-import org.myan.web.ConfigHelper;
 import org.myan.web.util.ClassUtil;
 
 import java.lang.annotation.Annotation;
@@ -31,7 +31,7 @@ public abstract class AbstractContext implements Context {
     static Set<Class<?>> getClassFromSuper(Class<?> superClass) {
         Set<Class<?>> classes = new HashSet<>();
         for (Class<?> clazz : CLASS_SET) {
-            if(superClass.isAssignableFrom(clazz) && !superClass.equals(clazz))
+            if (superClass.isAssignableFrom(clazz) && !superClass.equals(clazz))
                 classes.add(clazz);
         }
         return classes;
@@ -40,7 +40,7 @@ public abstract class AbstractContext implements Context {
     static Set<Class<?>> getClassFromAnnotation(Class<? extends Annotation> annotationClass) {
         Set<Class<?>> classes = new HashSet<>();
         for (Class<?> clazz : CLASS_SET) {
-            if(clazz.isAnnotationPresent(annotationClass))
+            if (clazz.isAnnotationPresent(annotationClass))
                 classes.add(clazz);
         }
         return classes;

@@ -4,9 +4,9 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
+import org.myan.web.ConfigHelper;
 import org.myan.web.exceptions.ContextException;
 import org.myan.web.exceptions.InitializeException;
-import org.myan.web.ConfigHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -179,7 +179,7 @@ public final class DBUtil {
 
     public static void beginTransaction() {
         Connection connection = getConnection();
-        if(connection != null) {
+        if (connection != null) {
             try {
                 connection.setAutoCommit(false);
             } catch (SQLException e) {
@@ -193,7 +193,7 @@ public final class DBUtil {
 
     public static void commitTransaction() {
         Connection connection = getConnection();
-        if(connection != null) {
+        if (connection != null) {
             try {
                 connection.commit();
                 connection.close();
@@ -208,7 +208,7 @@ public final class DBUtil {
 
     public static void rollbackTransaction() {
         Connection connection = getConnection();
-        if(connection != null) {
+        if (connection != null) {
             try {
                 connection.rollback();
                 connection.close();

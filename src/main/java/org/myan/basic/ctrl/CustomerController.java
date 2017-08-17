@@ -2,7 +2,6 @@ package org.myan.basic.ctrl;
 
 import org.myan.basic.CustomerService;
 import org.myan.web.annotation.Action;
-import org.myan.web.annotation.Aspect;
 import org.myan.web.annotation.Controller;
 import org.myan.web.annotation.HttpMethod;
 import org.myan.web.annotation.Inject;

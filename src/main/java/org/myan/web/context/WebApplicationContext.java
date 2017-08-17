@@ -1,11 +1,10 @@
 package org.myan.web.context;
 
-import org.myan.web.beans.ControllerRequest;
-import org.myan.web.beans.RequestHandler;
-import org.myan.web.context.AbstractContext;
 import org.myan.web.annotation.Action;
 import org.myan.web.annotation.Controller;
 import org.myan.web.annotation.HttpMethod;
+import org.myan.web.beans.ControllerRequest;
+import org.myan.web.beans.RequestHandler;
 import org.myan.web.util.CollectionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,11 +25,11 @@ public class WebApplicationContext extends AbstractContext {
 
     static {
         Set<Class<?>> controllers = getClassFromAnnotation(Controller.class);
-        if(CollectionUtil.isNotEmpty(controllers)) {
+        if (CollectionUtil.isNotEmpty(controllers)) {
             for (Class<?> controller : controllers) {
                 Method[] methods = controller.getDeclaredMethods();
                 for (Method method : methods) {
-                    if(method.isAnnotationPresent(Action.class)) {
+                    if (method.isAnnotationPresent(Action.class)) {
                         Action action = method.getAnnotation(Action.class);
                         HttpMethod[] httpMethod = action.method();
                         String path = action.path();
@@ -50,7 +49,7 @@ public class WebApplicationContext extends AbstractContext {
         //FIXED there should add some validation.
         for (Map.Entry<ControllerRequest, RequestHandler> entry : ACTION_MAP.entrySet()) {
             HttpMethod[] allowedMethods = entry.getKey().getRequestMethod();
-            if(Arrays.asList(allowedMethods).containsAll(Arrays.asList(methods)))
+            if (Arrays.asList(allowedMethods).containsAll(Arrays.asList(methods)))
                 return ACTION_MAP.get(request);
 
         }

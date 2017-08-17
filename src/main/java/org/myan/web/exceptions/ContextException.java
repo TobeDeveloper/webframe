@@ -6,7 +6,7 @@ package org.myan.web.exceptions;
  */
 public class ContextException extends RuntimeException {
 
-    public ContextException(Throwable cause){
+    public ContextException(Throwable cause) {
         super(cause);
     }
 

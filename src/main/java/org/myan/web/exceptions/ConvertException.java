@@ -6,7 +6,7 @@ package org.myan.web.exceptions;
  */
 public class ConvertException extends RuntimeException {
 
-    public ConvertException(Throwable cause){
+    public ConvertException(Throwable cause) {
         super(cause);
     }
 

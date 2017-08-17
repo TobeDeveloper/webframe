@@ -15,6 +15,5 @@ public interface Constants {
     String basePackage = "app.basePackage";
     String jspPath = "app.jspPath";
     String resourcePath = "app.resourcePath";
-
-
+    String uploadLimit = "app.uploadLimit";
 }

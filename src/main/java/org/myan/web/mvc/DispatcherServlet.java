@@ -1,18 +1,15 @@
 package org.myan.web.mvc;
 
-import org.myan.web.context.AbstractContext;
-import org.myan.web.annotation.HttpMethod;
-import org.myan.web.context.BeanContext;
-import org.myan.web.beans.RequestHandler;
-import org.myan.web.context.WebApplicationContext;
 import org.myan.web.ConfigHelper;
+import org.myan.web.annotation.HttpMethod;
+import org.myan.web.beans.RequestHandler;
+import org.myan.web.context.AbstractContext;
+import org.myan.web.context.BeanContext;
+import org.myan.web.context.WebApplicationContext;
+import org.myan.web.mvc.file.FileUploader;
 import org.myan.web.util.ClassUtil;
-import org.myan.web.util.CodecUtil;
-import org.myan.web.util.CollectionUtil;
 import org.myan.web.util.JsonUtil;
 import org.myan.web.util.RefelectionUtil;
-import org.myan.web.util.StreamUtil;
-import org.myan.web.util.StringUtil;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -25,8 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -47,6 +42,8 @@ public class DispatcherServlet extends HttpServlet {
 
         ServletRegistration defaultServlet = servletContext.getServletRegistration("default");
         defaultServlet.addMapping(ConfigHelper.getResourcePath() + "*");
+        //init FileUploader
+        FileUploader.init(servletContext);
     }
 
     @Override
@@ -55,29 +52,12 @@ public class DispatcherServlet extends HttpServlet {
         if (handler != null) {
             Class<?> controllerClass = handler.getControllerClass();
             Object controller = BeanContext.getBean(controllerClass);
-            //we should set all the request params
-            Map<String, Object> paramsMap = new HashMap<>();
-            Enumeration<String> paramNames = req.getParameterNames();
-            while (paramNames.hasMoreElements()) {
-                String paramName = paramNames.nextElement();
-                paramsMap.put(paramName, req.getParameter(paramName));
-            }
 
-            //add url params
-            String requestBody = CodecUtil.decodeURL(StreamUtil.getString(req.getInputStream()));
-            if (StringUtil.isNotEmpty(requestBody)) {
-                String[] params = StringUtil.splitString(requestBody, "&");
-                if (CollectionUtil.isNotEmpty(params)) {
-                    for (String param : params) {
-                        String[] kv = StringUtil.splitString(param, "=");
-                        if (CollectionUtil.isNotEmpty(kv) && kv.length == 2) {
-                            paramsMap.put(kv[0], kv[1]);
-                        }
-                    }
-                }
-            }
-
-            Param param = new Param(paramsMap);
+            Param param;
+            if (FileUploader.isMultipart(req))
+                param = FileUploader.createParam(req);
+            else
+                param = RequestParamCreator.createParam(req);
             Method actionMethod = handler.getRequestMethod();
             Object result = RefelectionUtil.invokeMethod(controller, actionMethod, param);
 

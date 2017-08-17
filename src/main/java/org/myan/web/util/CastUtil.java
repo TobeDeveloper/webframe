@@ -71,7 +71,7 @@ public final class CastUtil {
         return value;
     }
 
-    public static boolean castBoolean(String property) {
+    public static boolean castBoolean(Object property) {
         return castBoolean(property, false);
     }
 

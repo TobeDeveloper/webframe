@@ -18,11 +18,11 @@ public abstract class AspectProxy implements Proxy {
         begin();
 
         try {
-            if(intercept(target, method, params)){
+            if (intercept(target, method, params)) {
                 before(target, method, params);
                 result = chain.doProxyChain();
                 after(target, method, params);
-            }else
+            } else
                 result = chain.doProxyChain();
         } catch (Throwable throwable) {
             error(target, method, params);
@@ -35,7 +35,7 @@ public abstract class AspectProxy implements Proxy {
 
     }
 
-    public boolean intercept(Class<?> clazz, Method method, Object[] params) throws Throwable{
+    public boolean intercept(Class<?> clazz, Method method, Object[] params) throws Throwable {
         return true;
     }
 

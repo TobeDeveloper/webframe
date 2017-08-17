@@ -31,7 +31,7 @@ public final class RefelectionUtil {
         Object result;
         try {
             method.setAccessible(true);
-            if (method.getParameterCount() == 0)
+            if (method.getParameterCount() == 0 || params.length == 0)
                 result = method.invoke(target);
             else
                 result = method.invoke(target, params);

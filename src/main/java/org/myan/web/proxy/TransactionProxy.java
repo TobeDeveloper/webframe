@@ -10,14 +10,14 @@ import java.lang.reflect.Method;
  * Intellij IDEA
  */
 public class TransactionProxy implements Proxy {
-    private static final ThreadLocal<Boolean> FLAG_HOLDER  = ThreadLocal.withInitial(() -> false);
+    private static final ThreadLocal<Boolean> FLAG_HOLDER = ThreadLocal.withInitial(() -> false);
 
     @Override
     public Object proxy(ProxyChain chain) throws Throwable {
         Object result;
         Boolean flag = FLAG_HOLDER.get();
         Method method = chain.getTargetMethod();
-        if(!flag && method.isAnnotationPresent(Transactional.class)) {
+        if (!flag && method.isAnnotationPresent(Transactional.class)) {
             FLAG_HOLDER.set(true);
 
             try {
