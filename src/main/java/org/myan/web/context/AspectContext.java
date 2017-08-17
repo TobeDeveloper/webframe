@@ -1,9 +1,11 @@
 package org.myan.web.context;
 
 import org.myan.web.annotation.Aspect;
+import org.myan.web.annotation.Service;
 import org.myan.web.proxy.AspectProxy;
 import org.myan.web.proxy.Proxy;
 import org.myan.web.proxy.ProxyManager;
+import org.myan.web.proxy.TransactionProxy;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -32,6 +34,12 @@ public class AspectContext extends AbstractContext {
     * */
     private static Map<Class<?>, Set<Class<?>>> createProxyMap() {
         Map<Class<?>, Set<Class<?>>> proxyMap = new HashMap<>();
+        addAspectProxy(proxyMap);
+        addTransactionProxy(proxyMap);
+        return proxyMap;
+    }
+
+    private static void addAspectProxy(Map<Class<?>, Set<Class<?>>> proxyMap) {
         for (Class<?> proxyClass : getClassFromSuper(AspectProxy.class)) {
             if(proxyClass.isAnnotationPresent(Aspect.class)){
                 Aspect aspect = proxyClass.getAnnotation(Aspect.class);
@@ -39,7 +47,10 @@ public class AspectContext extends AbstractContext {
                 proxyMap.put(proxyClass, targetClasses);
             }
         }
-        return proxyMap;
+    }
+
+    private static void addTransactionProxy(Map<Class<?>, Set<Class<?>>> proxyMap) {
+        proxyMap.put(TransactionProxy.class, getClassFromAnnotation(Service.class));
     }
 
     /*
@@ -59,7 +70,7 @@ public class AspectContext extends AbstractContext {
                     else{
                         List<Proxy> proxyList = new ArrayList<>();
                         proxyList.add(proxy);
-                        targetMap.put(proxyClass, proxyList);
+                        targetMap.put(clazz, proxyList);
                     }
                 } catch (InstantiationException | IllegalAccessException e) {
                     e.printStackTrace();

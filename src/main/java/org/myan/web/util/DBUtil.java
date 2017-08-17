@@ -81,7 +81,7 @@ public final class DBUtil {
         List<T> entityList;
         try {
             Connection connection = getConnection();
-            entityList = QUERY_RUNNER.query(connection, sql, new BeanListHandler<T>(entityClass), params);
+            entityList = QUERY_RUNNER.query(connection, sql, new BeanListHandler<>(entityClass), params);
         } catch (SQLException e) {
             LOG.error("Failed to execute query.", e);
             throw new ContextException(e);
@@ -175,6 +175,50 @@ public final class DBUtil {
 
     private static String getTableName(Class<?> entityClass) {
         return entityClass.getSimpleName();
+    }
+
+    public static void beginTransaction() {
+        Connection connection = getConnection();
+        if(connection != null) {
+            try {
+                connection.setAutoCommit(false);
+            } catch (SQLException e) {
+                LOG.error("Failed to start database transaction.", e);
+                throw new RuntimeException(e);
+            } finally {
+                CONNECTION_HOLDER.set(connection);
+            }
+        }
+    }
+
+    public static void commitTransaction() {
+        Connection connection = getConnection();
+        if(connection != null) {
+            try {
+                connection.commit();
+                connection.close();
+            } catch (SQLException e) {
+                LOG.error("Failed to commit database transaction.", e);
+                throw new RuntimeException(e);
+            } finally {
+                CONNECTION_HOLDER.remove();
+            }
+        }
+    }
+
+    public static void rollbackTransaction() {
+        Connection connection = getConnection();
+        if(connection != null) {
+            try {
+                connection.rollback();
+                connection.close();
+            } catch (SQLException e) {
+                LOG.error("Failed to rollback database transaction.", e);
+                throw new RuntimeException(e);
+            } finally {
+                CONNECTION_HOLDER.remove();
+            }
+        }
     }
 
 }
