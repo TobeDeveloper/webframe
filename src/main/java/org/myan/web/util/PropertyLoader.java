@@ -37,7 +37,7 @@ public final class PropertyLoader {
             LOG.error("Fail to load properties file.", e);
             throw new InitializeException(e);
         }
-        this.prop = prop;
+        PropertyLoader.prop = prop;
     }
 
     public String getString(String key) {

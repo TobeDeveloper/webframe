@@ -67,7 +67,6 @@ public final class FileUploader {
                                 String fileName = FileUploadUtil.getRealFileName(new String(fileItem.getName().getBytes(),
                                         "UTF-8"));
                                 if (StringUtil.isNotEmpty(fileName)) {
-                                    long fileSize = fileItem.getSize();
                                     fileParams.add(new FileParam(fieldName,
                                             fileName,
                                             fileItem.getSize(),
