@@ -22,6 +22,7 @@ import java.util.Set;
 public class WebApplicationContext extends AbstractContext {
     private static final Logger LOG = LoggerFactory.getLogger(WebApplicationContext.class);
     private static final Map<ControllerRequest, RequestHandler> ACTION_MAP = new HashMap<>();
+    public static final RequestHandler NOT_FOUND_HANDLER = new RequestHandler();
 
     static {
         Set<Class<?>> controllers = getClassFromAnnotation(Controller.class);
@@ -49,9 +50,12 @@ public class WebApplicationContext extends AbstractContext {
         //FIXED there should add some validation.
         for (Map.Entry<ControllerRequest, RequestHandler> entry : ACTION_MAP.entrySet()) {
             HttpMethod[] allowedMethods = entry.getKey().getRequestMethod();
-            if (Arrays.asList(allowedMethods).containsAll(Arrays.asList(methods)))
-                return ACTION_MAP.get(request);
-
+            if (entry.getKey().getRequestPath().equalsIgnoreCase(path)){
+                if(Arrays.asList(allowedMethods).containsAll(Arrays.asList(methods)))
+                    return ACTION_MAP.get(request);
+                else
+                    return NOT_FOUND_HANDLER;
+            }
         }
         return null;
     }

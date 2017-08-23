@@ -49,7 +49,7 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestHandler handler = getRequestHandler(req);
-        if (handler != null) {
+        if (handler != null && !handler.equals(WebApplicationContext.NOT_FOUND_HANDLER)) {
             Class<?> controllerClass = handler.getControllerClass();
             Object controller = BeanContext.getBean(controllerClass);
 
@@ -63,6 +63,9 @@ public class DispatcherServlet extends HttpServlet {
 
             processResult(req, resp, result);
         } else {
+            //maybe we can't find certain mapped path
+            if(handler.equals(WebApplicationContext.NOT_FOUND_HANDLER))
+                resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
         }
     }

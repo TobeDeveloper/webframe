@@ -10,6 +10,8 @@ public class RequestHandler {
     private Class<?> controllerClass;
     private Method requestMethod;
 
+    public RequestHandler() { }
+
     public RequestHandler(Class<?> controllerClass, Method requestMethod) {
         this.controllerClass = controllerClass;
         this.requestMethod = requestMethod;

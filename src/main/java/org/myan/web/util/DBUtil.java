@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -170,6 +171,34 @@ public final class DBUtil {
         } catch (IOException e) {
             LOG.error("Failed to execute sql file", e);
             throw new RuntimeException(e);
+        }
+    }
+
+    public static void executeBatch(String sql, List<List<Object>> paramList) {
+        Connection connection = CONNECTION_HOLDER.get();
+        PreparedStatement statement = null;
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.prepareStatement(sql);
+            for (List<Object> param : paramList) {
+                for (int i = 0; i < param.size(); i++)
+                    statement.setObject((i+1), param.get(i));
+                statement.addBatch();
+            }
+            statement.executeBatch();
+            connection.commit();
+        } catch (SQLException e) {
+            LOG.error("Failed to execute batch update.", e);
+            throw new RuntimeException(e);
+        } finally {
+            if(statement!=null){
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    LOG.error("Failed to close sql statement.", e);
+                }
+            }
+            closeConnection();
         }
     }
 
